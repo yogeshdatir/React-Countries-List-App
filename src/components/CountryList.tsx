@@ -47,20 +47,26 @@ const CountryList = () => {
   );
   const [apiQuery, setApiQuery] = useState<string>("");
 
+  const [loading, setLoading] = useState(false);
+
   const classes = useStyles();
 
   useEffect(() => {
     const fetchCountryList = async () => {
+      setLoading(true);
       const countryListFromAPI = await axios(
         "https://restcountries.eu/rest/v2/all"
       );
       setCountryList(countryListFromAPI.data);
+      setLoading(false);
     };
     const fetchFilteredCountryList = async () => {
+      setLoading(true);
       const filteredCountryListFromAPI = await axios(
         `https://restcountries.eu/rest/v2/${apiQuery}`
       );
       setCountryList(filteredCountryListFromAPI.data);
+      setLoading(false);
     };
     if (inputState.name === "" && inputState.region === "") {
       fetchCountryList();
@@ -68,7 +74,7 @@ const CountryList = () => {
       fetchFilteredCountryList();
     }
     return () => {};
-  }, [apiQuery]);
+  }, [inputState, apiQuery]);
 
   const handleChange = (
     event: React.ChangeEvent<{ name?: string; value: unknown }>
@@ -136,26 +142,30 @@ const CountryList = () => {
             </Select>
           </FormControl>
         </Box>
-        <Grid container spacing={4}>
-          {selectedCountry ? (
-            <CountryDetails
-              country={selectedCountry}
-              setSelectedCountry={setSelectedCountry}
-              countryList={countryList}
-            />
-          ) : (
-            countryList.map((country: Country, index: number) => (
-              <Grid
-                key={index}
-                item
-                xs={3}
-                onClick={() => setSelectedCountry(country)}
-              >
-                <CountryCard country={country} />
-              </Grid>
-            ))
-          )}
-        </Grid>
+        {loading ? (
+          `Loading...`
+        ) : (
+          <Grid container spacing={4}>
+            {selectedCountry ? (
+              <CountryDetails
+                country={selectedCountry}
+                setSelectedCountry={setSelectedCountry}
+                countryList={countryList}
+              />
+            ) : (
+              countryList.map((country: Country, index: number) => (
+                <Grid
+                  key={index}
+                  item
+                  xs={3}
+                  onClick={() => setSelectedCountry(country)}
+                >
+                  <CountryCard country={country} />
+                </Grid>
+              ))
+            )}
+          </Grid>
+        )}
       </Container>
     </Container>
   );
