@@ -5,12 +5,12 @@ export interface Country {
   population: number;
   flag: string;
   subregion: string;
-  borders: string;
+  borders: Country[];
   nativeName: string;
   currencies: Currency[];
   languages: Language[];
   topLevelDomain: string;
-  numericCode: string;
+  alpha3Code: string;
 }
 
 export interface Currency {

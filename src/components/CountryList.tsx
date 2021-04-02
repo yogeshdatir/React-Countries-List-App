@@ -20,7 +20,7 @@ const CountryList = () => {
   useEffect(() => {
     const fetchCountryList = async () => {
       const countryListFromAPI = await axios(
-        "https://restcountries.eu/rest/v2/all?fields=name;capital;population;region;flag;subregion;borders;nativeName;currencies;languages;topLevelDomain;numericCode;"
+        "https://restcountries.eu/rest/v2/all"
       );
       setCountryList(countryListFromAPI.data);
     };
@@ -34,7 +34,8 @@ const CountryList = () => {
           {selectedCountry ? (
             <CountryDetails
               country={selectedCountry}
-              goBack={setSelectedCountry}
+              setSelectedCountry={setSelectedCountry}
+              countryList={countryList}
             />
           ) : (
             countryList.map((country: Country, index: number) => (

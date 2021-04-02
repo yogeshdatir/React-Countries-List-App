@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   cardText: {
     marginRight: "20%",
   },
-  buttonStyle: {
+  backButtonStyle: {
     padding: "5px 25px",
     textTransform: "none",
   },
@@ -62,16 +62,22 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "18px",
     padding: "0 5px",
   },
+  countryButtonStyle: {
+    textTransform: "none",
+    fontSize: "8px",
+    margin: "0 5px",
+  },
 }));
 
 interface ICardProps {
   country: Country;
-  goBack: any;
+  setSelectedCountry: any;
+  countryList: Country[];
 }
 
 const CountryDetails = (props: ICardProps) => {
   const classes = useStyles();
-  const { country, goBack } = props;
+  const { country, setSelectedCountry, countryList } = props;
 
   const currenciesString = country.currencies
     .map((currency: Currency) => currency.name)
@@ -81,13 +87,31 @@ const CountryDetails = (props: ICardProps) => {
     .map((lang: Language) => lang.name)
     .toString();
 
+  const borderCountriesButtons = country.borders.map(
+    (borderCountryAlpha3code: any, index: number) => {
+      const currentCountry = countryList.filter(
+        (country: Country) => country.alpha3Code === borderCountryAlpha3code
+      )[0];
+      return (
+        <Button
+          key={index}
+          variant="outlined"
+          className={classes.countryButtonStyle}
+          onClick={() => setSelectedCountry(currentCountry)}
+        >
+          {currentCountry.name}
+        </Button>
+      );
+    }
+  );
+
   return (
     <Container className={classes.root}>
       <Button
-        className={classes.buttonStyle}
+        className={classes.backButtonStyle}
         startIcon={<KeyboardBackspaceIcon className={classes.backIcon} />}
         variant="outlined"
-        onClick={() => goBack(null)}
+        onClick={() => setSelectedCountry(null)}
       >
         <Typography variant="subtitle2">Back</Typography>
       </Button>
@@ -141,7 +165,10 @@ const CountryDetails = (props: ICardProps) => {
               </Grid>
             </Grid>
             <Grid>
-              <Typography variant="subtitle1">Border Countries:</Typography>
+              <Typography variant="subtitle1" component="span">
+                Border Countries:
+              </Typography>
+              {borderCountriesButtons}
             </Grid>
           </CardContent>
         </div>
