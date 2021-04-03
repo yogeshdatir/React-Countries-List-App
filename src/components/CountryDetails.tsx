@@ -8,6 +8,7 @@ import {
   Button,
   Box,
 } from "@material-ui/core";
+import Image from "material-ui-image";
 import React from "react";
 import { Country, Currency, Language } from "../types/country";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
@@ -16,6 +17,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     marginTop: "5vh",
+    display: "flex",
+    padding: 0,
+    "@media (max-width:780px)": {
+      flexDirection: "column",
+    },
   },
   card: {
     display: "flex",
@@ -24,17 +30,31 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
     alignItems: "center",
     marginTop: "6vh",
+    "@media (max-width:780px)": {
+      flexDirection: "column",
+      height: "100vh",
+    },
   },
   flagCover: {
     width: "40%",
     height: "100%",
+    "@media (max-width:780px)": {
+      height: "100%",
+      width: "100%",
+    },
   },
   details: {
     display: "flex",
     width: "60%",
     height: "100%",
+    "@media (max-width:780px)": {
+      height: "100%",
+      width: "100%",
+      flexDirection: "column",
+    },
   },
   content: {
+    padding: 0,
     margin: "auto 10%",
     display: "flex",
     height: "100%",
@@ -42,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "flex-start",
+    "@media (max-width:780px)": {
+      margin: 0,
+    },
   },
   subContent: {
     width: "100%",
@@ -50,9 +73,22 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "flex-start",
     width: "100%",
+    "@media (max-width:780px)": {
+      height: "100%",
+      width: "100%",
+      flexDirection: "column",
+    },
   },
   cardText: {
     marginRight: "20%",
+  },
+  cardText2: {
+    "@media (max-width:780px)": {
+      height: "100%",
+      width: "100%",
+      flexDirection: "column",
+      marginTop: "10%",
+    },
   },
   backButtonStyle: {
     padding: "5px 25px",
@@ -65,7 +101,16 @@ const useStyles = makeStyles((theme) => ({
   countryButtonStyle: {
     textTransform: "none",
     fontSize: "8px",
-    margin: "0 5px",
+    margin: "5px 10px",
+    marginLeft: 0,
+  },
+  borderCountriesStyle: {
+    "@media (max-width:780px)": {
+      height: "100%",
+      width: "100%",
+      flexDirection: "column",
+      marginTop: "10%",
+    },
   },
 }));
 
@@ -106,7 +151,7 @@ const CountryDetails = (props: ICardProps) => {
   );
 
   return (
-    <Container className={classes.root}>
+    <Grid className={classes.root} item container sm={12}>
       <Button
         className={classes.backButtonStyle}
         startIcon={<KeyboardBackspaceIcon className={classes.backIcon} />}
@@ -121,10 +166,17 @@ const CountryDetails = (props: ICardProps) => {
           image={country.flag}
           title={country.name}
         />
-        <div className={classes.details}>
+        <Grid className={classes.details}>
           <CardContent className={classes.content}>
             <Grid className={classes.subContent}>
-              <Typography gutterBottom variant="h5" component="h2">
+              <Typography
+                gutterBottom
+                variant="h4"
+                component="h2"
+                style={{
+                  margin: "10% 0",
+                }}
+              >
                 {country.name}
               </Typography>
               <Grid className={classes.cardDetails}>
@@ -149,7 +201,7 @@ const CountryDetails = (props: ICardProps) => {
                     Capital: {country.capital}
                   </Typography>
                 </Grid>
-                <Grid>
+                <Grid className={classes.cardText2}>
                   <Typography variant="subtitle1">
                     Top Level Domain: {country.topLevelDomain}
                   </Typography>
@@ -164,16 +216,16 @@ const CountryDetails = (props: ICardProps) => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid>
+            <Grid className={classes.borderCountriesStyle}>
               <Typography variant="subtitle1" component="span">
                 Border Countries:
               </Typography>
-              {borderCountriesButtons}
+              <Grid>{borderCountriesButtons}</Grid>
             </Grid>
           </CardContent>
-        </div>
+        </Grid>
       </Box>
-    </Container>
+    </Grid>
   );
 };
 

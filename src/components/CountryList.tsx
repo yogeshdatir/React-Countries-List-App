@@ -23,7 +23,9 @@ const useStyles = makeStyles({
   grids: {
     flexGrow: 1,
     margin: "10px 5px",
-    maxWidth: "24%",
+    "@media (min-width:780px)": {
+      maxWidth: "24%",
+    },
   },
   formControlStyle: {
     marginBottom: "2%",
@@ -31,7 +33,10 @@ const useStyles = makeStyles({
   formStyle: {
     display: "flex",
     justifyContent: "space-between",
-    flexDirection: "row",
+    flexDirection: "column",
+    "@media (min-width:780px)": {
+      flexDirection: "row",
+    },
     padding: "0 10px",
   },
 });
@@ -113,7 +118,7 @@ const CountryList = () => {
                     className={classes.formControlStyle}
                     variant="outlined"
                     style={{
-                      width: "35%",
+                      minWidth: "35%",
                     }}
                   >
                     <OutlinedInput
@@ -160,12 +165,12 @@ const CountryList = () => {
                     </Select>
                   </FormControl>
                 </Box>
-                <Grid container direction="row">
+                <Grid item container direction="row">
                   {countryList.map((country: Country, index: number) => (
                     <Grid
                       key={index}
                       item
-                      xs={12}
+                      sm={12}
                       md={3}
                       container
                       direction="row"
