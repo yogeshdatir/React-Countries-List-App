@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navbar = () => {
+const Navbar = (props: { toggleTheme: any; icon: any }) => {
+  const { toggleTheme, icon } = props;
   const classes = useStyles();
 
   return (
@@ -33,8 +34,8 @@ const Navbar = () => {
             <Typography variant="h6" className={classes.title}>
               Where in the world?
             </Typography>
-            <Button color="inherit">
-              <SettingsBrightnessIcon />
+            <Button color="inherit" onClick={toggleTheme}>
+              {icon}
               <Typography variant="subtitle1" className={classes.modeText}>
                 Dark Mode
               </Typography>
